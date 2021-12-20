@@ -9,7 +9,6 @@ function App() {
       <main>
         <TemperatureConverter />
       </main>
-      <footer>Use o teclado para entrar a temperatura a converter</footer>
     </div>
   );
 }
