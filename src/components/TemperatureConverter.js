@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const TemperatureConverter = () => {
     const [temperature, setTemperature] = useState('');
-    const [option, setOption] = useState('');
+    const [estado, setEstado] = useState('0');
     
     const handleTemperature = (value) => {
         if(value === '.' && temperature.includes('.')){
@@ -13,7 +13,6 @@ const TemperatureConverter = () => {
             return true;
         }
         if(value === '.' && (temperature === '' || temperature === '-')){
-            console.log('aqui')
             setTemperature(temperature + '0.');
             return true;
         }
@@ -27,18 +26,68 @@ const TemperatureConverter = () => {
         setTemperature(temp);
     }
 
-    function checaValor(){
-        console.log(option)
+    const handleConverter = () => {
+        const temp = Number(temperature);
+
+        if(temperature === '-0'){
+            setTemperature('0');
+        }
+
+        if(estado === '0'){
+            alert("Selecione uma unidade de temperatura antes de continuar.");
+            return;
+        }
+        if(temperature === ''){
+            alert("Adicione uma temperatura antes de continuar.");
+            return;
+        }
+        if(estado === '1'){
+            const celsiusTemp = temp.toFixed(2);
+            const fahrenheitTemp = ((temp * 9) / 5 + 32).toFixed(2);
+            const kelvinTemp = (temp + 273.15).toFixed(2);
+
+            resultado(celsiusTemp, fahrenheitTemp, kelvinTemp);
+        }
+        if(estado === '2'){
+            const celsiusTemp = (((temp - 32)/9)*5).toFixed(2);
+            const fahrenheitTemp = temp.toFixed(2);
+            const kelvinTemp = (((temp - 32)*5/9)+273.15).toFixed(2);
+
+            resultado(celsiusTemp, fahrenheitTemp, kelvinTemp);
+        }
+        if(estado === '3'){
+            const celsiusTemp = (temp - 273.15).toFixed(2);
+            const fahrenheitTemp = ((((temp - 273.15)/5)*9)+32).toFixed(2);
+            const kelvinTemp = temp.toFixed(2);
+
+            resultado(celsiusTemp, fahrenheitTemp, kelvinTemp);
+        }
+    }
+
+    const resultado = (celsiusTemp = '', fahrenheitTemp = '', kelvinTemp = '') => {
+        const resultCelsius = document.querySelector('#celsius-temp');
+        const resultFahrenheit = document.querySelector('#fahrenheit-temp');
+        const resultKelvin = document.querySelector('#kelvin-temp'); 
+
+        resultCelsius.insertAdjacentHTML('afterbegin', celsiusTemp);
+        resultFahrenheit.insertAdjacentHTML('afterbegin', fahrenheitTemp);
+        resultKelvin.insertAdjacentHTML('afterbegin', kelvinTemp);
+    } 
+
+    const handleReset = () => {
+        setTemperature('');
+        setEstado('0');
     }
 
     return(
         <>
             <aside className="areaResultado">
                 <input id="user-temp" defaultValue={temperature} />
-                <select id="user-choice">
-                    <option value={() => setOption('C')}>Celsius</option>
-                    <option value={() => setOption('F')}>Fahrenheit</option>
-                    <option value={() => setOption('K')}>Kelvin</option>
+                <select id="user-choice" value={estado} onChange={(valor) => setEstado(valor.target.value)}>
+                    <option value='0'>Selecione</option>
+                    <option value='1'>Celsius</option>
+                    <option value='2'>Fahrenheit</option>
+                    <option value='3'>Kelvin</option>
                 </select>
                 <div className="result" id="celsius-temp">
                 &nbsp;
@@ -58,7 +107,7 @@ const TemperatureConverter = () => {
                 <span>
                     <sup>o</sup>K
                 </span>
-                <button onClick={() => checaValor()} className="tecla" id="converter">
+                <button  onClick={() => handleConverter()} className="tecla" id="converter">
                     Converter
                 </button>
             </aside>
@@ -76,7 +125,7 @@ const TemperatureConverter = () => {
                 <button onClick={() => handleTemperature('.')} className="virgula tecla">.</button>
                 <button onClick={() => handleBackSpace()} className="limpa tecla">Delete</button>
                 <button onClick={() => handleTemperature('-')} className="negativo tecla">-</button>
-                <div className="reset tecla">Nova conversão</div>
+                <button onClick={() => handleReset()} className="reset tecla">Nova conversão</button>
             </aside>
         </>
     );
