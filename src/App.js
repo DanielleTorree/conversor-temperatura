@@ -1,23 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import './index.css';
+import TemperatureConverter from './components/TemperatureConverter';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="temperatureConverter">
+      <header className="titulo">Conversor de temperatura</header>
+      <main>
+        <TemperatureConverter />
+      </main>
+      <footer>Use o teclado para entrar a temperatura a converter</footer>
     </div>
   );
 }
