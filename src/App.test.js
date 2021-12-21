@@ -7,10 +7,7 @@ describe('Teste de renderização do componente App', () => {
     const linkElement = screen.getByText(/Conversor de temperatura/i);
     expect(linkElement).toBeInTheDocument();
   });
-
-
 });
-
 
 // Teste de implementados para entender os testes jest
 // describe('Teste de soma', () => {
